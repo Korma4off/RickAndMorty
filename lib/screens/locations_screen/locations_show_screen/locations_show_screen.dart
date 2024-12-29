@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_3/models/character.dart';
+import 'package:flutter_application_3/screens/characters_screen/characters_list_screen/characters_list_screen.dart';
 import 'package:flutter_application_3/screens/characters_screen/characters_show_screen/characters_show_screen.dart';
 import 'package:flutter_application_3/screens/locations_screen/locations_show_screen/bloc/locations_show_bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -72,8 +73,8 @@ class _LocationsShowScreenState extends State<LocationsShowScreen> {
                 ),
                 TextWidget('Residents:', screenWidth, context),
                 Column(
-                  children:
-                      ResidentsList(state.characters, screenWidth, context),
+                  children: ResidentsList(state.characters,
+                      state.location.residents, screenWidth, context),
                 )
               ])),
               SizedBox(width: screenWidth * 0.05)
@@ -99,18 +100,27 @@ class _LocationsShowScreenState extends State<LocationsShowScreen> {
 
   // ignore: non_constant_identifier_names
   List<Widget> ResidentsList(
-      List<Character> characters, double screenWidth, BuildContext context) {
+      List<Character> characters,
+      List<dynamic>? locationResidents,
+      double screenWidth,
+      BuildContext context) {
     List<Widget> episodesList = [];
     for (Character character in characters) {
-      episodesList.add(GestureDetector(
-          onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => CharactersShowScreen(id: character.id)),
-            );
-          },
-          child: TextWidget(character.name, screenWidth, context)));
+      if (locationResidents!.contains(character.url)) {
+        episodesList.add(GestureDetector(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) =>
+                        CharactersShowScreen(id: character.id)),
+              );
+            },
+            child: Column(children: [
+              const SizedBox(height: 20),
+              CharactersListScreenTile(character: character, internet: true)
+            ])));
+      }
     }
     return episodesList;
   }

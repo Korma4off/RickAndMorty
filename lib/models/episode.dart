@@ -7,6 +7,7 @@ class Episode {
   final String air_date;
   final String episode;
   final List<dynamic>? characters;
+  final String? url;
 
   Episode({
     required this.id,
@@ -15,6 +16,7 @@ class Episode {
     required this.air_date,
     required this.episode,
     this.characters,
+    this.url,
   });
 
   factory Episode.fromMap(Map<String, dynamic> json) => Episode(
@@ -23,6 +25,7 @@ class Episode {
         air_date: json['air_date'],
         episode: json['episode'],
         characters: json['characters'],
+        url: json['url'],
       );
 
   Map<String, dynamic> toMap() {

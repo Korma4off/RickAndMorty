@@ -6,6 +6,7 @@ class Location {
   final String type;
   final String dimension;
   final List<dynamic>? residents;
+  final String? url;
 
   Location({
     required this.id,
@@ -13,6 +14,7 @@ class Location {
     required this.type,
     required this.dimension,
     this.residents,
+    this.url,
   });
 
   factory Location.fromMap(Map<String, dynamic> json) => Location(
@@ -21,6 +23,7 @@ class Location {
         type: json['type'],
         dimension: json['dimension'],
         residents: json['residents'],
+        url: json['url'],
       );
 
   Map<String, dynamic> toMap() {

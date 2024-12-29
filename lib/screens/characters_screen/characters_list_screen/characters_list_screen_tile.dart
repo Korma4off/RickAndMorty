@@ -31,8 +31,8 @@ class _CharactersListScreenTileState extends State<CharactersListScreenTile> {
                   CharactersShowScreen(id: widget.character.id)),
         );
       },
-      child: Row(children: <Widget>[
-        SizedBox(width: screenWidth * 0.05),
+      child:
+          Row(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
         SizedBox(
           width: screenWidth * 0.35,
           child: ClipRRect(
@@ -78,7 +78,6 @@ class _CharactersListScreenTileState extends State<CharactersListScreenTile> {
             ],
           ),
         ),
-        SizedBox(width: screenWidth * 0.05)
       ]),
     );
   }

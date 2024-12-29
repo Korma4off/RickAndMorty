@@ -1,5 +1,6 @@
 import 'package:flutter_application_3/models/character.dart';
 import 'package:flutter_application_3/models/locations.dart';
+import 'package:flutter_application_3/repositories/characters/characters_repository.dart';
 import 'package:flutter_application_3/repositories/locations/locations_repository.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -12,8 +13,7 @@ class LocationsShowBloc extends Bloc<LocationsShowEvent, LocationsShowState> {
       try {
         final location =
             await LocationsRepository.instance.getDataFromId(event.id);
-        final characters =
-            await LocationsRepository.instance.getCharactersFromId(event.id);
+        final characters = await CharactersRepository.instance.getData();
         emit(LocationsShowLoaded(location: location, characters: characters));
       } catch (e) {
         rethrow;

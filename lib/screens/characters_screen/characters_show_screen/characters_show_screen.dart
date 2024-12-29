@@ -1,3 +1,5 @@
+// ignore_for_file: non_constant_identifier_names
+
 import 'package:flutter/material.dart';
 import 'package:flutter_application_3/models/episode.dart';
 import 'package:flutter_application_3/screens/characters_screen/characters_show_screen/bloc/characters_show_bloc.dart';
@@ -118,14 +120,9 @@ class _CharactersShowScreenState extends State<CharactersShowScreen> {
                       SizedBox(
                           width: screenWidth * 0.9,
                           child: Column(
-                            children: EpisodesList(
-                                state.episodes, screenWidth, context),
-                          )
-
-                          // Text(
-                          //   '${(state.character.episode?.isEmpty ?? false) ? "unknown" : state.character.episode}',
-                          //   style: Theme.of(context).textTheme.headlineSmall,
-                          ),
+                            children: EpisodesList(state.episodes,
+                                state.character.episode, screenWidth, context),
+                          )),
                     ],
                   ),
                 ),
@@ -137,7 +134,6 @@ class _CharactersShowScreenState extends State<CharactersShowScreen> {
     );
   }
 
-  // ignore: non_constant_identifier_names
   Widget TextWidget(String str, double screenWidth, BuildContext context) {
     return SizedBox(
       width: screenWidth * 0.9,
@@ -149,21 +145,28 @@ class _CharactersShowScreenState extends State<CharactersShowScreen> {
     );
   }
 
-  // ignore: non_constant_identifier_names
   List<Widget> EpisodesList(
-      List<Episode> episodes, double screenWidth, BuildContext context) {
+      List<Episode> episodes,
+      List<dynamic>? characterEpisodes,
+      double screenWidth,
+      BuildContext context) {
     List<Widget> episodesList = [];
     for (Episode episode in episodes) {
-      episodesList.add(GestureDetector(
-          onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => EpisodesShowScreen(id: episode.id)),
-            );
-          },
-          child: TextWidget(
-              '${episode.id + 1}. ${episode.name}', screenWidth, context)));
+      if (characterEpisodes!.contains(episode.url)) {
+        episodesList.add(GestureDetector(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => EpisodesShowScreen(id: episode.id)),
+              );
+            },
+            child: Column(children: [
+              const SizedBox(height: 20),
+              TextWidget(
+                  '${episode.id + 1}. ${episode.name}', screenWidth, context)
+            ])));
+      }
     }
     return episodesList;
   }

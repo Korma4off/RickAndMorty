@@ -11,6 +11,7 @@ class Character {
   final Map<String, dynamic>? location;
   final List<dynamic>? episode;
   final String image;
+  final String? url;
 
   Character({
     required this.id,
@@ -23,19 +24,22 @@ class Character {
     this.origin,
     this.location,
     this.episode,
+    this.url,
   });
 
   factory Character.fromMap(Map<String, dynamic> json) => Character(
-      id: json['id'],
-      name: json['name'],
-      status: json['status'],
-      species: json['species'],
-      type: json['type'],
-      gender: json['gender'],
-      origin: json['origin'],
-      location: json['location'],
-      episode: json['episode'],
-      image: json['image']);
+        id: json['id'],
+        name: json['name'],
+        status: json['status'],
+        species: json['species'],
+        type: json['type'],
+        gender: json['gender'],
+        origin: json['origin'],
+        location: json['location'],
+        episode: json['episode'],
+        image: json['image'],
+        url: json['url'],
+      );
 
   Map<String, dynamic> toMap() {
     return {

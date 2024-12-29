@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_3/models/character.dart';
+import 'package:flutter_application_3/screens/characters_screen/characters_list_screen/characters_list_screen.dart';
 import 'package:flutter_application_3/screens/characters_screen/characters_show_screen/characters_show_screen.dart';
 import 'package:flutter_application_3/screens/episodes_screen/episodes_show_screen/bloc/episodes_show_bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -72,8 +73,8 @@ class _EpisodesShowScreenState extends State<EpisodesShowScreen> {
                   ),
                   TextWidget('Characters', screenWidth, context),
                   Column(
-                    children:
-                        CharactersList(state.characters, screenWidth, context),
+                    children: CharactersList(state.characters,
+                        state.episode.characters, screenWidth, context),
                   ),
                   SizedBox(width: screenWidth * 0.05)
                 ])),
@@ -98,19 +99,51 @@ class _EpisodesShowScreenState extends State<EpisodesShowScreen> {
 
   // ignore: non_constant_identifier_names
   List<Widget> CharactersList(
-      List<Character> characters, double screenWidth, BuildContext context) {
+      List<Character> characters,
+      List<dynamic>? episodeCharacters,
+      double screenWidth,
+      BuildContext context) {
     List<Widget> episodesList = [];
     for (Character character in characters) {
-      episodesList.add(GestureDetector(
-          onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => CharactersShowScreen(id: character.id)),
-            );
-          },
-          child: TextWidget(character.name, screenWidth, context)));
+      if (episodeCharacters!.contains(character.url)) {
+        episodesList.add(GestureDetector(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) =>
+                        CharactersShowScreen(id: character.id)),
+              );
+            },
+            child: Column(children: [
+              const SizedBox(height: 20),
+              CharactersListScreenTile(character: character, internet: true)
+            ])));
+      }
     }
     return episodesList;
   }
+  // // ignore: non_constant_identifier_names
+  // List<Widget> CharactersList(
+  //     List<Character> characters,
+  //     List<dynamic>? episodeCharacters,
+  //     double screenWidth,
+  //     BuildContext context) {
+  //   List<Widget> episodesList = [];
+  //   for (Character character in characters) {
+  //     if (episodeCharacters!.contains(character.url)) {
+  //       episodesList.add(GestureDetector(
+  //           onTap: () {
+  //             Navigator.push(
+  //               context,
+  //               MaterialPageRoute(
+  //                   builder: (context) =>
+  //                       CharactersShowScreen(id: character.id)),
+  //             );
+  //           },
+  //           child: TextWidget(character.name, screenWidth, context)));
+  //     }
+  //   }
+  //   return episodesList;
+  // }
 }
